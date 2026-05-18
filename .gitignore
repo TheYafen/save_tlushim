@@ -1,1 +1,3 @@
-Payslip/
+.venv/
+Payslips/
+__pycache__/
