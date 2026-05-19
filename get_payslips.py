@@ -1,3 +1,4 @@
+#!/mnt/c/TheYafen/scripts/save_tlushim/.venv/bin/python
 import imaplib
 import email
 import os
@@ -34,6 +35,8 @@ def get_latest_payslip(save_dir=SAVE_DIR):
         # Getting mail date
         msg_date = parsedate_to_datetime(msg["Date"])
 
+        files_names_list = []
+
         for part in msg.walk():
             if part.get_content_disposition() == "attachment":
                 payload = part.get_payload(decode=True)
@@ -47,11 +50,14 @@ def get_latest_payslip(save_dir=SAVE_DIR):
                     continue
                 
                 full_path = os.path.join(save_dir, filename)
+                
+                files_names_list.append(filename)
 
                 print(f"Saving: {full_path}")
                         
                 with open(os.path.join(save_dir, filename), "wb") as f:
                     f.write(payload)
+    return files_names_list
 
 if __name__ == "__main__":
-    get_latest_payslip()
+    a = get_latest_payslip()

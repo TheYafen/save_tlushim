@@ -1,4 +1,5 @@
 .venv/
 Payslips/
 __pycache__/
+test.py
 gdrive-api-theyafen.json
