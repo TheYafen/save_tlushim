@@ -1,4 +1,4 @@
-#!/mnt/c/TheYafen/scripts/save_tlushim/.venv/bin/python
+#!/mnt/c/my_scripts/jopa/.venv/bin/python
 import get_payslips
 import save_gdrive
 

@@ -1,4 +1,5 @@
 .venv/
+.wenv/
 Payslips/
 __pycache__/
 test.py

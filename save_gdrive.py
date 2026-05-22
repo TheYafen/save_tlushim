@@ -1,4 +1,3 @@
-#!/mnt/c/TheYafen/scripts/save_tlushim/.venv/bin/python
 import os
 from google.oauth2 import service_account
 from googleapiclient.discovery import build

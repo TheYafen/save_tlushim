@@ -1,4 +1,3 @@
-#!/mnt/c/TheYafen/scripts/save_tlushim/.venv/bin/python
 import imaplib
 import email
 import os
