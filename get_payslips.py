@@ -1,8 +1,13 @@
+<<<<<<< HEAD
+=======
+#!/mnt/c/TheYafen/scripts/save_tlushim/.venv/bin/python
+>>>>>>> 9796c69 (from home)
 import imaplib
 import email
 import os
 from email.utils import parsedate_to_datetime
 
+<<<<<<< HEAD
 SAVE_DIR = "Payslips"
 os.makedirs(SAVE_DIR, exist_ok=True)
 
@@ -12,6 +17,25 @@ MAIL.login("theyafen@gmail.com", "koae qwuh xdty uyom")
 MAIL.select("inbox")
 
 status, messages = MAIL.search(None, '(FROM "ritao@accupos.com")')
+=======
+SAVE_DIR = "payslips"
+SENDER = "ritao@accupos.com"
+SEARCH_CRITERIA = f'(UNSEEN FROM "{SENDER}")'
+POLL_SECONDS = 30
+
+os.makedirs(SAVE_DIR, exist_ok=True)
+
+IMAP_HOST = "imap.gmail.com"
+IMAP_USER = "theyafen@gmail.com"
+IMAP_PASS = "koae qwuh xdty uyom"
+
+
+def connect_mail():
+    mail = imaplib.IMAP4_SSL(IMAP_HOST)
+    mail.login(IMAP_USER, IMAP_PASS)
+    mail.select("inbox")
+    return mail
+>>>>>>> 9796c69 (from home)
 
 def build_filename(date, directory):
     year = date.year
@@ -49,7 +73,11 @@ def get_latest_payslip(save_dir=SAVE_DIR):
                     continue
                 
                 full_path = os.path.join(save_dir, filename)
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> 9796c69 (from home)
                 files_names_list.append(filename)
 
                 print(f"Saving: {full_path}")

@@ -3,4 +3,6 @@
 Payslips/
 __pycache__/
 test.py
-gdrive-api-theyafen.json
+gdrive-api-theyafen*
+credentials.json
+token.json
