@@ -1,8 +1,14 @@
 .venv/
 .wenv/
-Payslips/
+payslips/
 __pycache__/
 test.py
 gdrive-api-theyafen*
 credentials.json
 token.json
+test.py
+save_gdrive.py
+Dockerfile
+from_docker/
+requirements_old.txt
+.env

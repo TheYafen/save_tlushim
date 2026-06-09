@@ -1,41 +1,35 @@
-<<<<<<< HEAD
-=======
 #!/mnt/c/TheYafen/scripts/save_tlushim/.venv/bin/python
->>>>>>> 9796c69 (from home)
+from email.utils import parsedate_to_datetime
+from email.header import decode_header
 import imaplib
 import email
 import os
-from email.utils import parsedate_to_datetime
+from dotenv import load_dotenv
 
-<<<<<<< HEAD
-SAVE_DIR = "Payslips"
-os.makedirs(SAVE_DIR, exist_ok=True)
 
-MAIL = imaplib.IMAP4_SSL("imap.gmail.com")
-MAIL.login("theyafen@gmail.com", "koae qwuh xdty uyom")
-
-MAIL.select("inbox")
-
-status, messages = MAIL.search(None, '(FROM "ritao@accupos.com")')
-=======
 SAVE_DIR = "payslips"
 SENDER = "ritao@accupos.com"
-SEARCH_CRITERIA = f'(UNSEEN FROM "{SENDER}")'
+TOFES = "טופס"
+TLUSH = "תלוש"
+SEARCH_CRITERIA = f'(FROM "{SENDER}")'
 POLL_SECONDS = 30
 
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 IMAP_HOST = "imap.gmail.com"
 IMAP_USER = "theyafen@gmail.com"
-IMAP_PASS = "koae qwuh xdty uyom"
+
+load_dotenv()
+IMAP_PASS = os.getenv("IMAP_PASS")
+print(IMAP_PASS)
 
 
 def connect_mail():
     mail = imaplib.IMAP4_SSL(IMAP_HOST)
     mail.login(IMAP_USER, IMAP_PASS)
     mail.select("inbox")
-    return mail
->>>>>>> 9796c69 (from home)
+    status, messages = mail.search(None, SEARCH_CRITERIA)
+    return status, messages, mail
 
 def build_filename(date, directory):
     year = date.year
@@ -51,14 +45,23 @@ def build_filename(date, directory):
     
 
 def get_latest_payslip(save_dir=SAVE_DIR):
+    status, messages, mail = connect_mail()
+    i = 0
     for num in messages[0].split():
-        status, data = MAIL.fetch(num, "(RFC822)")
+        status, data = mail.fetch(num, "(RFC822)")
         msg = email.message_from_bytes(data[0][1])
+        files_names_list = []
+
+        # Getting mail subject
+        raw_subject = msg["Subject"]
+        subject, encoding = decode_header(raw_subject)[0]
+        subject = subject.decode(encoding)
+        #print(subject)
+        if TLUSH not in subject:
+            continue
 
         # Getting mail date
         msg_date = parsedate_to_datetime(msg["Date"])
-
-        files_names_list = []
 
         for part in msg.walk():
             if part.get_content_disposition() == "attachment":
@@ -73,11 +76,7 @@ def get_latest_payslip(save_dir=SAVE_DIR):
                     continue
                 
                 full_path = os.path.join(save_dir, filename)
-<<<<<<< HEAD
-                
-=======
 
->>>>>>> 9796c69 (from home)
                 files_names_list.append(filename)
 
                 print(f"Saving: {full_path}")
