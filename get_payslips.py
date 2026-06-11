@@ -1,27 +1,27 @@
 #!/mnt/c/TheYafen/scripts/save_tlushim/.venv/bin/python
+
 from email.utils import parsedate_to_datetime
 from email.header import decode_header
+from dotenv import load_dotenv
+
 import imaplib
 import email
 import os
-from dotenv import load_dotenv
-
 
 SAVE_DIR = "payslips"
 SENDER = "ritao@accupos.com"
+
 TOFES = "טופס"
 TLUSH = "תלוש"
+
 SEARCH_CRITERIA = f'(FROM "{SENDER}")'
 POLL_SECONDS = 30
-
-os.makedirs(SAVE_DIR, exist_ok=True)
 
 IMAP_HOST = "imap.gmail.com"
 IMAP_USER = "theyafen@gmail.com"
 
 load_dotenv()
 IMAP_PASS = os.getenv("IMAP_PASS")
-print(IMAP_PASS)
 
 
 def connect_mail():
@@ -42,9 +42,9 @@ def build_filename(date, directory):
         return base
     else:
         return None
-    
 
-def get_latest_payslip(save_dir=SAVE_DIR):
+def get_latest_payslip(save_dir=SAVE_DIR, doctype=TLUSH):
+    os.makedirs(SAVE_DIR, exist_ok=True)
     status, messages, mail = connect_mail()
     i = 0
     for num in messages[0].split():
@@ -56,8 +56,8 @@ def get_latest_payslip(save_dir=SAVE_DIR):
         raw_subject = msg["Subject"]
         subject, encoding = decode_header(raw_subject)[0]
         subject = subject.decode(encoding)
-        #print(subject)
-        if TLUSH not in subject:
+
+        if doctype not in subject:
             continue
 
         # Getting mail date
